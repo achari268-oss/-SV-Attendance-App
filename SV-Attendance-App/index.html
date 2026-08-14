@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0,user-scalable=no">
+
+<meta name="theme-color" content="#0866e9">
+
+<title>SV Attendance App</title>
+
+<link rel="manifest" href="manifest.json">
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#f5f8ff;
+    color:#111827;
+    min-height:100vh;
+}
+
+button,input,select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* ================= LOGIN ================= */
+
+#loginPage{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:
+        linear-gradient(180deg,#ffffff 0%,#f7faff 65%,#dceaff 100%);
+}
+
+.login-box{
+    width:100%;
+    max-width:470px;
+    text-align:center;
+}
+
+.logo{
+    width:190px;
+    height:190px;
+    object-fit:contain;
+    margin:0 auto 12px;
+}
+
+.app-title{
+    color:#0646a8;
+    font-size:30px;
+    font-weight:800;
+    margin-bottom:8px;
+}
+
+.tagline{
+    color:#718096;
+    font-size:16px;
+    margin-bottom:28px;
+}
+
+.input-box{
+    width:100%;
+    height:62px;
+    background:white;
+    border:1px solid #dce3ef;
+    border-radius:14px;
+    margin-bottom:14px;
+    display:flex;
+    align-items:center;
+    padding:0 17px;
+    box-shadow:0 3px 12px rgba(0,0,0,.04);
+}
+
+.input-box span{
+    font-size:24px;
+    margin-right:13px;
+}
+
+.input-box input,
+.input-box select{
+    width:100%;
+    border:none;
+    outline:none;
+    background:transparent;
+    color:#374151;
+}
+
+.login-btn{
+    width:100%;
+    height:62px;
+    border:none;
+    border-radius:14px;
+    background:#0969ed;
+    color:white;
+    font-weight:700;
+    font-size:18px;
+    margin-top:5px;
+    box-shadow:0 7px 18px rgba(9,105,237,.25);
+}
+
+.login-btn:active{
+    transform:scale(.98);
+}
+
+.remember{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    text-align:left;
+    margin:18px 0;
+    color:#374151;
+}
+
+.remember input{
+    width:20px;
+    height:20px;
+    accent-color:#0969ed;
+}
+
+.or{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    color:#777;
+    margin:25px 0;
+}
+
+.or div{
+    height:1px;
+    background:#d8dee9;
+    flex:1;
+}
+
+.teacher-login{
+    width:100%;
+    height:58px;
+    border-radius:14px;
+    border:2px solid #0969ed;
+    background:white;
+    color:#0758c7;
+    font-weight:700;
+}
+
+/* ================= APP ================= */
+
+#appPage{
+    min-height:100vh;
+    background:#f6f8fc;
+}
+
+.topbar{
+    height:82px;
+    background:linear-gradient(135deg,#0759d7,#0873f5);
+    color:white;
+    display:flex;
+    align-items:center;
+    padding:0 25px;
+    gap:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.12);
+}
+
+.menu-btn,
+.back-btn{
+    background:transparent;
+    border:none;
+    color:white;
+    font-size:30px;
+    width:42px;
+    height:42px;
+}
+
+.top-title{
+    flex:1;
+}
+
+.top-title h2{
+    font-size:21px;
+}
+
+.top-title p{
+    font-size:15px;
+    margin-top:4px;
+    opacity:.9;
+}
+
+.bell{
+    font-size:27px;
+}
+
+.content{
+    max-width:1100px;
+    margin:auto;
+    padding:30px 22px 100px;
+}
+
+.section-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:22px;
+}
+
+.section-head h2{
+    font-size:26px;
+}
+
+.add-class{
+    border:2px solid #0969ed;
+    background:white;
+    color:#0758c7;
+    border-radius:13px;
+    padding:11px 18px;
+    font-weight:700;
+}
+
+/* ================= CLASS CARDS ================= */
+
+.classes{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.class-card{
+    background:white;
+    border-radius:18px;
+    padding:22px;
+    min-height:190px;
+    box-shadow:0 4px 15px rgba(0,0,0,.06);
+    border:1px solid #edf0f5;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.class-card:hover{
+    transform:translateY(-2px);
+}
+
+.class-icon{
+    width:54px;
+    height:54px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:25px;
+    margin-bottom:18px;
+}
+
+.blue{background:#0969ed}
+.green{background:#20ad68}
+.purple{background:#6937df}
+.orange{background:#f47b13}
+
+.class-card h3{
+    font-size:20px;
+    margin-bottom:8px;
+}
+
+.class-card p{
+    color:#6b7280;
+}
+
+.arrow{
+    float:right;
+    font-size:28px;
+    color:#596273;
+    margin-top:-35px;
+}
+
+/* ================= SUMMARY ================= */
+
+.summary-title{
+    margin:38px 0 16px;
+    font-size:24px;
+}
+
+.summary{
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    box-shadow:0 4px 15px rgba(0,0,0,.06);
+}
+
+.summary-item{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    justify-content:center;
+}
+
+.summary-icon{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+}
+
+.total-icon{background:#0969ed}
+.present-icon{background:#20ad68}
+.absent-icon{background:#ed3d43}
+
+.summary-item small{
+    color:#687386;
+    display:block;
+    margin-bottom:4px;
+}
+
+.summary-item strong{
+    font-size:25px;
+}
+
+/* ================= TEACHER ATTENDANCE ================= */
+
+.teacher-card{
+    background:#eaf4ff;
+    border:1px solid #cfe5ff;
+    border-radius:18px;
+    margin-top:22px;
+    padding:20px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.teacher-card .calendar{
+    font-size:42px;
+}
+
+.teacher-card h3{
+    color:#0758c7;
+}
+
+.teacher-card p{
+    color:#64748b;
+    margin-top:5px;
+}
+
+.check-btn{
+    margin-left:auto;
+    border:none;
+    border-radius:12px;
+    padding:13px 20px;
+    background:#0969ed;
+    color:white;
+    font-weight:700;
+}
+
+/* ================= STUDENTS ================= */
+
+.students-head{
+    display:flex;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.search{
+    flex:1;
+    height:56px;
+    background:white;
+    border:1px solid #dfe4ec;
+    border-radius:13px;
+    padding:0 18px;
+    outline:none;
+}
+
+.filter-btn{
+    width:58px;
+    border:1px solid #dfe4ec;
+    background:white;
+    border-radius:13px;
+}
+
+.students{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.student{
+    background:white;
+    border-radius:16px;
+    padding:16px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
+
+.student-number{
+    width:44px;
+    height:44px;
+    border-radius:12px;
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.student-info{
+    flex:1;
+}
+
+.student-info h3{
+    font-size:18px;
+}
+
+.student-info p{
+    color:#748094;
+    margin-top:4px;
+}
+
+.status{
+    padding:8px 13px;
+    border-radius:10px;
+    font-weight:700;
+    border:1px solid;
+}
+
+.present{
+    color:#159447;
+    background:#ecfdf3;
+    border-color:#c8f1d8;
+}
+
+.absent{
+    color:#df3037;
+    background:#fff1f2;
+    border-color:#ffd2d5;
+}
+
+.more{
+    border:none;
+    background:transparent;
+    font-size:24px;
+}
+
+.add-student{
+    position:fixed;
+    right:25px;
+    bottom:78px;
+    border:none;
+    background:#0969ed;
+    color:white;
+    padding:16px 24px;
+    border-radius:30px;
+    font-weight:700;
+    box-shadow:0 8px 20px rgba(9,105,237,.3);
+}
+
+/* ================= BOTTOM NAV ================= */
+
+.bottom-nav{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    height:72px;
+    background:white;
+    border-top:1px solid #e5e7eb;
+    display:flex;
+    justify-content:center;
+    z-index:20;
+}
+
+.nav-inner{
+    width:100%;
+    max-width:900px;
+    display:flex;
+}
+
+.nav-item{
+    flex:1;
+    border:none;
+    background:white;
+    color:#667085;
+    font-size:12px;
+}
+
+.nav-item div{
+    font-size:24px;
+    margin-bottom:3px;
+}
+
+.nav-item.active{
+    color:#0969ed;
+    font-weight:700;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:100;
+    padding:20px;
+}
+
+.modal-box{
+    width:100%;
+    max-width:450px;
+    background:white;
+    border-radius:20px;
+    padding:25px;
+}
+
+.modal-box h2{
+    margin-bottom:20px;
+}
+
+.modal-box input,
+.modal-box select{
+    width:100%;
+    height:52px;
+    border:1px solid #d9e0ea;
+    border-radius:10px;
+    padding:0 13px;
+    margin-bottom:13px;
+    outline:none;
+}
+
+.modal-actions{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+}
+
+.modal-actions button{
+    flex:1;
+    height:50px;
+    border-radius:10px;
+    border:none;
+}
+
+.cancel{
+    background:#edf0f4;
+}
+
+.save{
+    background:#0969ed;
+    color:white;
+}
+
+/* ================= TOAST ================= */
+
+#toast{
+    position:fixed;
+    left:50%;
+    bottom:90px;
+    transform:translateX(-50%);
+    background:#111827;
+    color:white;
+    padding:13px 20px;
+    border-radius:12px;
+    z-index:200;
+    display:none;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:650px){
+
+    .topbar{
+        height:75px;
+        padding:0 15px;
+        gap:10px;
+    }
+
+    .top-title h2{
+        font-size:18px;
+    }
+
+    .content{
+        padding:22px 14px 100px;
+    }
+
+    .section-head h2{
+        font-size:23px;
+    }
+
+    .classes{
+        gap:12px;
+    }
+
+    .class-card{
+        min-height:175px;
+        padding:17px;
+    }
+
+    .summary{
+        padding:16px 8px;
+    }
+
+    .summary-item{
+        gap:7px;
+    }
+
+    .summary-item strong{
+        font-size:21px;
+    }
+
+    .summary-item small{
+        font-size:11px;
+    }
+
+    .summary-icon{
+        width:38px;
+        height:38px;
+    }
+
+    .teacher-card{
+        padding:15px;
+        gap:10px;
+    }
+
+    .teacher-card .calendar{
+        font-size:32px;
+    }
+
+    .check-btn{
+        padding:11px 12px;
+    }
+
+    .student{
+        padding:12px 10px;
+    }
+
+    .student-info h3{
+        font-size:15px;
+    }
+
+    .student-info p{
+        font-size:12px;
+    }
+
+    .status{
+        font-size:11px;
+        padding:6px 8px;
+    }
+
+    .add-student{
+        right:15px;
+        bottom:83px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOGIN ================= -->
+
+<section id="loginPage">
+
+<div class="login-box">
+
+    <img src="icons/icon-192.png"
+         class="logo"
+         alt="SV Attendance">
+
+    <div class="app-title">SV ATTENDANCE APP</div>
+
+    <div class="tagline">
+        Smart Attendance, Better Education
+    </div>
+
+    <div class="input-box">
+        <span>🏫</span>
+        <select id="college">
+            <option value="college name"> College name</option>
+             <option value="sv college"> sv College </option>
+             <option value="vs college"> vs College </option>
+        </select>
+    </div>
+
+    <div class="input-box">
+        <span>🔒</span>
+        <input
+            id="password"
+            type="password"
+            placeholder="Password">
+        <span onclick="togglePassword()"
+              style="cursor:pointer">👁</span>
+    </div>
+
+    <label class="remember">
+        <input type="checkbox" id="remember" checked>
+        Remember me
+    </label>
+
+    <button class="login-btn" onclick="login()">
+        ⇥ &nbsp; LOGIN
+    </button>
+
+    <div class="or">
+        <div></div>
+        <span>or</span>
+        <div></div>
+    </div>
+
+    <button class="teacher-login"
+            onclick="teacherLogin()">
+        👤 &nbsp; Teacher Login
+    </button>
+
+</div>
+
+</section>
+
+
+<!-- ================= MAIN APP ================= -->
+
+<section id="appPage" class="hidden">
+
+<header class="topbar">
+
+    <button class="menu-btn"
+            onclick="showHome()">☰</button>
+
+    <div class="top-title">
+        <h2>SV ATTENDANCE APP</h2>
+        <p>Welcome, Teacher 👋</p>
+    </div>
+
+    <div class="bell">♧</div>
+
+</header>
+
+
+<!-- HOME -->
+
+<main id="homePage" class="content">
+
+    <div class="section-head">
+        <h2>My Classes</h2>
+
+        <button class="add-class"
+                onclick="openClassModal()">
+            ＋ Add Class
+        </button>
+    </div>
+
+    <div id="classes" class="classes"></div>
+
+    <h2 class="summary-title">
+        Today's Summary
+    </h2>
+
+    <div class="summary">
+
+        <div class="summary-item">
+            <div class="summary-icon total-icon">👥</div>
+            <div>
+                <small>Total Students</small>
+                <strong id="totalStudents">0</strong>
+            </div>
+        </div>
+
+        <div class="summary-item">
+            <div class="summary-icon present-icon">✓</div>
+            <div>
+                <small>Present</small>
+                <strong id="presentStudents">0</strong>
+            </div>
+        </div>
+
+        <div class="summary-item">
+            <div class="summary-icon absent-icon">×</div>
+            <div>
+                <small>Absent</small>
+                <strong id="absentStudents">0</strong>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="teacher-card">
+
+        <div class="calendar">▣</div>
+
+        <div>
+            <h3>Teacher Attendance</h3>
+            <p>Mark your attendance for today</p>
+        </div>
+
+        <button class="check-btn"
+                onclick="teacherCheckin()">
+            Check-in
+        </button>
+
+    </div>
+
+</main>
+
+
+<!-- STUDENTS -->
+
+<main id="studentsPage"
+      class="content hidden">
+
+    <div class="section-head">
+
+        <div style="display:flex;align-items:center;gap:10px">
+
+            <button
+                onclick="showHome()"
+                style="border:none;background:none;font-size:30px">
+                ←
+            </button>
+
+            <div>
+                <h2 id="classTitle">BCA A</h2>
+                <p id="classCount"
+                   style="color:#687386">
+                   0 Students
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="students-head">
+
+        <input
+            id="studentSearch"
+            class="search"
+            placeholder="🔍 Search students..."
+            oninput="renderStudents()">
+
+        <button class="filter-btn"
+                onclick="filterStudents()">
+            ☰
+        </button>
+
+    </div>
+
+
+    <div id="students"
+         class="students">
+    </div>
+
+    <button class="add-student"
+            onclick="openStudentModal()">
+        👤＋ Add Student
+    </button>
+
+</main>
+
+
+<!-- PROFILE -->
+
+<main id="profilePage"
+      class="content hidden">
+
+    <h2>Profile</h2>
+
+    <div class="teacher-card"
+         style="margin-top:20px">
+
+        <div style="font-size:45px">👨‍🏫</div>
+
+        <div>
+            <h3>Teacher</h3>
+            <p>SV Attendance App</p>
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- SETTINGS -->
+
+<main id="settingsPage"
+      class="content hidden">
+
+    <h2>Settings</h2>
+
+    <div class="teacher-card">
+        <div>⚙️</div>
+
+        <div>
+            <h3>Application Settings</h3>
+            <p>SV Attendance App</p>
+        </div>
+    </div>
+
+    <button
+        onclick="logout()"
+        style="margin-top:20px;
+               padding:14px 22px;
+               border:none;
+               border-radius:12px;
+               background:#ef4444;
+               color:white">
+        Logout
+    </button>
+
+</main>
+
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottom-nav">
+
+<div class="nav-inner">
+
+    <button class="nav-item active"
+            onclick="navigate('home')">
+        <div>⌂</div>
+        Home
+    </button>
+
+    <button class="nav-item"
+            onclick="teacherCheckin()">
+        <div>▣</div>
+        Teacher<br>Attendance
+    </button>
+
+    <button class="nav-item"
+            onclick="navigate('profile')">
+        <div>♙</div>
+        Profile
+    </button>
+
+    <button class="nav-item"
+            onclick="navigate('settings')">
+        <div>⚙</div>
+        Settings
+    </button>
+
+</div>
+
+</nav>
+
+</section>
+
+
+<!-- CLASS MODAL -->
+
+<div id="classModal"
+     class="modal hidden">
+
+<div class="modal-box">
+
+    <h2>Add Class</h2>
+
+    <input
+        id="newClass"
+        placeholder="Class name e.g. BCA A">
+
+    <div class="modal-actions">
+
+        <button class="cancel"
+                onclick="closeClassModal()">
+            Cancel
+        </button>
+
+        <button class="save"
+                onclick="addClass()">
+            Add Class
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- STUDENT MODAL -->
+
+<div id="studentModal"
+     class="modal hidden">
+
+<div class="modal-box">
+
+    <h2>Add Student</h2>
+
+    <input
+        id="studentName"
+        placeholder="Student name">
+
+    <input
+        id="studentId"
+        placeholder="Student ID">
+
+    <input
+        id="studentPhone"
+        placeholder="Mobile number">
+
+    <div class="modal-actions">
+
+        <button class="cancel"
+                onclick="closeStudentModal()">
+            Cancel
+        </button>
+
+        <button class="save"
+                onclick="addStudent()">
+            Add Student
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<div id="toast"></div>
+
+
+<script>
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let classes = JSON.parse(
+    localStorage.getItem("sv_classes") || "null"
+);
+
+if(!classes){
+
+    classes = [
+        {
+            name:"BCA A",
+            color:"blue",
+            students:[
+                {
+                    name:"Rahul Sharma",
+                    id:"BCA001",
+                    phone:"9876543210",
+                    status:"Present"
+                },
+                {
+                    name:"Vinith Kumar",
+                    id:"BCA002",
+                    phone:"9876543211",
+                    status:"Absent"
+                },
+                {
+                    name:"Kiran Naik",
+                    id:"BCA003",
+                    phone:"9876543212",
+                    status:"Present"
+                },
+                {
+                    name:"Ajay Shetty",
+                    id:"BCA004",
+                    phone:"9876543213",
+                    status:"Present"
+                },
+                {
+                    name:"Pooja Bhat",
+                    id:"BCA005",
+                    phone:"9876543214",
+                    status:"Present"
+                },
+                {
+                    name:"Nikhil Nayak",
+                    id:"BCA006",
+                    phone:"9876543215",
+                    status:"Absent"
+                },
+                {
+                    name:"Shruti K.",
+                    id:"BCA007",
+                    phone:"9876543216",
+                    status:"Present"
+                },
+                {
+                    name:"Rohan M.",
+                    id:"BCA008",
+                    phone:"9876543217",
+                    status:"Present"
+                }
+            ]
+        },
+
+        {
+            name:"BCA B",
+            color:"green",
+            students:[]
+        },
+
+        {
+            name:"BCA C",
+            color:"purple",
+            students:[]
+        },
+
+        {
+            name:"BCA D",
+            color:"orange",
+            students:[]
+        }
+    ];
+
+    saveData();
+}
+
+let selectedClass = null;
+
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+function saveData(){
+
+    localStorage.setItem(
+        "sv_classes",
+        JSON.stringify(classes)
+    );
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function togglePassword(){
+
+    const p =
+        document.getElementById("password");
+
+    p.type =
+        p.type === "password"
+        ? "text"
+        : "password";
+}
+
+
+function login(){
+
+    const college =
+        document.getElementById("college").value;
+
+    const password =
+        document.getElementById("password").value;
+
+    if(!college){
+
+        toast("Please select your college");
+        return;
+    }
+
+    if(!password){
+
+        toast("Please enter password");
+        return;
+    }
+
+    localStorage.setItem(
+        "sv_logged_in",
+        "true"
+    );
+
+    document.getElementById("loginPage")
+        .classList.add("hidden");
+
+    document.getElementById("appPage")
+        .classList.remove("hidden");
+
+    renderClasses();
+
+    toast("Login successful");
+}
+
+
+function teacherLogin(){
+
+    document.getElementById("college").value =
+        "SGS College, Bhatkal";
+
+    document.getElementById("password").value =
+        "teacher";
+
+    login();
+}
+
+
+function logout(){
+
+    localStorage.removeItem(
+        "sv_logged_in"
+    );
+
+    location.reload();
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function hidePages(){
+
+    document
+        .querySelectorAll("#appPage main")
+        .forEach(p => p.classList.add("hidden"));
+}
+
+
+function navigate(page){
+
+    hidePages();
+
+    if(page === "home"){
+
+        document
+            .getElementById("homePage")
+            .classList.remove("hidden");
+
+        renderClasses();
+    }
+
+    if(page === "profile"){
+
+        document
+            .getElementById("profilePage")
+            .classList.remove("hidden");
+    }
+
+    if(page === "settings"){
+
+        document
+            .getElementById("settingsPage")
+            .classList.remove("hidden");
+    }
+}
+
+
+function showHome(){
+
+    navigate("home");
+}
+
+
+/* =====================================================
+   CLASSES
+===================================================== */
+
+function renderClasses(){
+
+    const container =
+        document.getElementById("classes");
+
+    container.innerHTML = "";
+
+    classes.forEach((c,index)=>{
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "class-card";
+
+        card.onclick =
+            () => openClass(index);
+
+        card.innerHTML = `
+
+            <div class="class-icon ${c.color}">
+                👥
+            </div>
+
+            <h3>${escapeHTML(c.name)}</h3>
+
+            <p>${c.students.length} Students</p>
+
+            <div class="arrow">›</div>
+        `;
+
+        container.appendChild(card);
+    });
+
+    updateSummary();
+}
+
+
+function openClass(index){
+
+    selectedClass = index;
+
+    hidePages();
+
+    document
+        .getElementById("studentsPage")
+        .classList.remove("hidden");
+
+    document.getElementById("classTitle")
+        .textContent =
+        classes[index].name;
+
+    renderStudents();
+}
+
+
+function openClassModal(){
+
+    document
+        .getElementById("classModal")
+        .classList.remove("hidden");
+
+    document
+        .getElementById("newClass")
+        .focus();
+}
+
+
+function closeClassModal(){
+
+    document
+        .getElementById("classModal")
+        .classList.add("hidden");
+}
+
+
+function addClass(){
+
+    const input =
+        document.getElementById("newClass");
+
+    const name =
+        input.value.trim();
+
+    if(!name){
+
+        toast("Enter class name");
+        return;
+    }
+
+    const colors =
+        ["blue","green","purple","orange"];
+
+    classes.push({
+
+        name:name,
+
+        color:
+            colors[classes.length %
+            colors.length],
+
+        students:[]
+
+    });
+
+    saveData();
+
+    input.value="";
+
+    closeClassModal();
+
+    renderClasses();
+
+    toast("Class added");
+}
+
+
+/* =====================================================
+   STUDENTS
+===================================================== */
+
+function renderStudents(){
+
+    if(selectedClass === null) return;
+
+    const current =
+        classes[selectedClass];
+
+    const search =
+        document
+        .getElementById("studentSearch")
+        .value
+        .toLowerCase();
+
+    const container =
+        document.getElementById("students");
+
+    container.innerHTML = "";
+
+    const filtered =
+        current.students.filter(s =>
+            s.name.toLowerCase()
+                .includes(search) ||
+            s.id.toLowerCase()
+                .includes(search)
+        );
+
+    document.getElementById("classCount")
+        .textContent =
+        `${current.students.length} Students`;
+
+    filtered.forEach((student,index)=>{
+
+        const realIndex =
+            current.students.indexOf(student);
+
+        const row =
+            document.createElement("div");
+
+        row.className="student";
+
+        row.innerHTML = `
+
+            <div class="student-number">
+                ${realIndex + 1}
+            </div>
+
+            <div class="student-info">
+
+                <h3>
+                    ${escapeHTML(student.name)}
+                </h3>
+
+                <p>
+                    ID: ${escapeHTML(student.id)}
+                </p>
+
+            </div>
+
+            <button
+                class="status ${
+                    student.status === "Present"
+                    ? "present"
+                    : "absent"
+                }"
+                onclick="toggleAttendance(${realIndex})">
+
+                ${student.status}
+
+            </button>
+
+            <button
+                class="more"
+                onclick="sendSMS(${realIndex})">
+
+                ⋮
+
+            </button>
+        `;
+
+        container.appendChild(row);
+    });
+
+    if(filtered.length === 0){
+
+        container.innerHTML = `
+            <div style="
+                text-align:center;
+                padding:50px;
+                color:#718096">
+                No students found
+            </div>
+        `;
+    }
+}
+
+
+function toggleAttendance(index){
+
+    const student =
+        classes[selectedClass]
+            .students[index];
+
+    student.status =
+        student.status === "Present"
+        ? "Absent"
+        : "Present";
+
+    saveData();
+
+    renderStudents();
+
+    updateSummary();
+
+    if(student.status === "Absent"){
+
+        sendAbsenceSMS(student);
+    }
+}
+
+
+function filterStudents(){
+
+    toast("Search is available above");
+}
+
+
+function openStudentModal(){
+
+    document
+        .getElementById("studentModal")
+        .classList.remove("hidden");
+
+    document
+        .getElementById("studentName")
+        .focus();
+}
+
+
+function closeStudentModal(){
+
+    document
+        .getElementById("studentModal")
+        .classList.add("hidden");
+}
+
+
+function addStudent(){
+
+    const name =
+        document
+        .getElementById("studentName")
+        .value.trim();
+
+    const id =
+        document
+        .getElementById("studentId")
+        .value.trim();
+
+    const phone =
+        document
+        .getElementById("studentPhone")
+        .value.trim();
+
+    if(!name || !id || !phone){
+
+        toast("Enter name, ID and mobile number");
+        return;
+    }
+
+    classes[selectedClass]
+        .students.push({
+
+            name:name,
+            id:id,
+            phone:phone,
+            status:"Present"
+
+        });
+
+    saveData();
+
+    document.getElementById("studentName").value="";
+    document.getElementById("studentId").value="";
+    document.getElementById("studentPhone").value="";
+
+    closeStudentModal();
+
+    renderStudents();
+
+    updateSummary();
+
+    toast("Student added");
+}
+
+
+/* =====================================================
+   SUMMARY
+===================================================== */
+
+function updateSummary(){
+
+    let total=0;
+    let present=0;
+    let absent=0;
+
+    classes.forEach(c=>{
+
+        total += c.students.length;
+
+        c.students.forEach(s=>{
+
+            if(s.status === "Present")
+                present++;
+
+            else
+                absent++;
+        });
+
+    });
+
+    document.getElementById("totalStudents")
+        .textContent=total;
+
+    document.getElementById("presentStudents")
+        .textContent=present;
+
+    document.getElementById("absentStudents")
+        .textContent=absent;
+}
+
+
+/* =====================================================
+   SMS
+===================================================== */
+
+const SMS_SERVER =
+    "http://localhost:3000";
+
+
+async function sendSMS(index){
+
+    if(selectedClass === null) return;
+
+    const student =
+        classes[selectedClass]
+            .students[index];
+
+    if(!student.phone){
+
+        toast("Student has no phone number");
+        return;
+    }
+
+    const message =
+        `SV Attendance App: ${student.name} is currently marked ${student.status} for attendance.`;
+
+    await sendSMSRequest(
+        student.phone,
+        message
+    );
+}
+
+
+async function sendAbsenceSMS(student){
+
+    if(!student.phone){
+
+        toast(
+            `${student.name} marked absent. No phone number.`
+        );
+
+        return;
+    }
+
+    const message =
+        `Dear Parent, ${student.name} was marked ABSENT today. - SV Attendance App`;
+
+    await sendSMSRequest(
+        student.phone,
+        message
+    );
+}
+
+
+async function sendSMSRequest(phone,message){
+
+    toast("Sending SMS request...");
+
+    try{
+
+        const response =
+            await fetch(
+                SMS_SERVER + "/send-sms",
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                        "application/json"
+                    },
+
+                    body:JSON.stringify({
+                        phone:phone,
+                        message:message
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if(data.success){
+
+            toast(
+                "SMS request sent successfully"
+            );
+
+        }else{
+
+            toast(
+                data.message ||
+                "SMS failed"
+            );
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "SMS server is not running"
+        );
+    }
+}
+
+
+/* =====================================================
+   TEACHER ATTENDANCE
+===================================================== */
+
+function teacherCheckin(){
+
+    const today =
+        new Date().toLocaleDateString();
+
+    localStorage.setItem(
+        "teacher_attendance",
+        today
+    );
+
+    toast(
+        "Teacher attendance checked-in"
+    );
+}
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function toast(message){
+
+    const t =
+        document.getElementById("toast");
+
+    t.textContent=message;
+
+    t.style.display="block";
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer =
+        setTimeout(()=>{
+            t.style.display="none";
+        },3000);
+}
+
+
+function escapeHTML(text){
+
+    return String(text)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+if(
+    localStorage.getItem("sv_logged_in")
+    === "true"
+){
+
+    document
+        .getElementById("loginPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("appPage")
+        .classList.remove("hidden");
+
+    renderClasses();
+}
+
+
+/* SERVICE WORKER */
+
+if("serviceWorker" in navigator){
+
+    navigator.serviceWorker
+        .register("service-worker.js")
+        .catch(err =>
+            console.log(
+                "Service worker:",
+                err
+            )
+        );
+}
+
+</script>
+
+</body>
+</html>
