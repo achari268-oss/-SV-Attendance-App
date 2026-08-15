@@ -1,3 +1,6 @@
 .env
 .env.txt
+.env.*
+!.env.example
+*.zip
 node_modules/
