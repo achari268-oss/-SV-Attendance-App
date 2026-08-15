@@ -442,6 +442,10 @@ button{
     border-radius:10px;
     font-weight:700;
     border:1px solid;
+    cursor:pointer;
+    background:#f3f4f6;
+    color:#6b7280;
+    border-color:#d1d5db;
 }
 
 .present{
@@ -1454,15 +1458,15 @@ function renderStudents(){
             </div>
 
             <button
-                class="status ${
-                    student.status === "Present"
-                    ? "present"
-                    : "absent"
-                }"
-                onclick="toggleAttendance(${realIndex})">
+                class="status ${student.status === "Present" ? "present" : ""}"
+                onclick="setAttendance(${realIndex}, 'Present')">
+                ✓ Present
+            </button>
 
-                ${student.status}
-
+            <button
+                class="status ${student.status === "Absent" ? "absent" : ""}"
+                onclick="setAttendance(${realIndex}, 'Absent')">
+                × Absent
             </button>
 
             <button
@@ -1487,6 +1491,27 @@ function renderStudents(){
                 No students found
             </div>
         `;
+    }
+}
+
+
+function setAttendance(index, status){
+
+    const student =
+        classes[selectedClass]
+            .students[index];
+
+    student.status = status;
+
+    saveData();
+
+    renderStudents();
+
+    updateSummary();
+
+    if(status === "Absent"){
+
+        sendAbsenceSMS(student);
     }
 }
 
