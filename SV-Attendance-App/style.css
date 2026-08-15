@@ -360,21 +360,43 @@ button {
   font-size: 13px;
 }
 
+.attendance-buttons {
+  display: flex;
+  gap: 8px;
+}
+
 .status {
-  padding: 8px 13px;
+  padding: 8px 12px;
   border-radius: 20px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .status.present {
-  background: #e5f8ef;
+  background: #f0f9f5;
   color: #0b9857;
+  border-color: #d0f0e3;
+}
+
+.status.present.active {
+  background: #0b9857;
+  color: white;
+  border-color: #0b9857;
 }
 
 .status.absent {
-  background: #ffebed;
+  background: #fef5f6;
   color: #d83b45;
+  border-color: #f5d0d5;
+}
+
+.status.absent.active {
+  background: #d83b45;
+  color: white;
+  border-color: #d83b45;
 }
 
 /* =========================================
@@ -551,9 +573,13 @@ button {
     font-size: 14px;
   }
 
+  .attendance-buttons {
+    gap: 6px;
+  }
+
   .status {
     font-size: 11px;
-    padding: 7px 9px;
+    padding: 6px 8px;
   }
 
   .login-card {

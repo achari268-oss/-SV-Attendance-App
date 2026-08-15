@@ -826,30 +826,38 @@ function studentRow(cid, s) {
       </div>
 
 
-      <button
-        class="status ${
-          s.status === "Present"
-            ? "present"
-            : "absent"
-        }"
-        onclick="  
-        
-        toggleStatus(
-            '${cid}',
-            '${s.id}'
-          )
-        ">
+      <div class="attendance-buttons">
+        <button
+          class="status present ${
+            s.status === "Present" ? "active" : ""
+          }"
+          onclick="markStatus(
+              '${cid}',
+              '${s.id}',
+              'Present'
+            )">
+          ✓ Present
+        </button>
 
-        ${s.status}
-
-      </button>
+        <button
+          class="status absent ${
+            s.status === "Absent" ? "active" : ""
+          }"
+          onclick="markStatus(
+              '${cid}',
+              '${s.id}',
+              'Absent'
+            )">
+          × Absent
+        </button>
+      </div>
 
 
     </div>
 
   `;
 }
-async function toggleStatus(cid, sid) {
+async function markStatus(cid, sid, status) {
     const c = data.classes.find(function (x) {
         return x.id === cid;
     });
@@ -866,11 +874,8 @@ async function toggleStatus(cid, sid) {
         return;
     }
 
-    // Toggle attendance status
-    s.status =
-        s.status === "Present"
-            ? "Absent"
-            : "Present";
+    // Set attendance status
+    s.status = status;
 
     // Save the updated attendance
     save();
