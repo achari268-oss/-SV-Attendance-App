@@ -177,7 +177,7 @@ function login() {
 
         <div class="logo">
           <img
-            src="icons/icon-192.png"
+            src="./icon-192.png"
             alt="SV Attendance App"
             style="
               width:100%;
